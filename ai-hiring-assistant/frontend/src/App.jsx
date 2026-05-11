@@ -30,7 +30,7 @@ function Analysis({ setAuth }) {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await axios.get("http://localhost:5000/history", {
+      const res = await axios.get("/api/history", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setHistory(res.data.history);
@@ -45,7 +45,7 @@ function Analysis({ setAuth }) {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/history/${id}`, {
+      await axios.delete(`/api/history/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchHistory();
@@ -78,7 +78,7 @@ function Analysis({ setAuth }) {
       formData.append("resume", file);
 
       const uploadRes = await axios.post(
-        "http://localhost:5000/upload",
+        "/api/upload",
         formData,
         { headers }
       );
@@ -86,7 +86,7 @@ function Analysis({ setAuth }) {
       const resumeText = uploadRes.data.text;
 
       const analysisRes = await axios.post(
-        "http://localhost:5000/analyze",
+        "/api/analyze",
         { resumeText, jobDescription },
         { headers }
       );
@@ -127,14 +127,14 @@ function Analysis({ setAuth }) {
       formData.append("resume", file);
 
       const uploadRes = await axios.post(
-        "http://localhost:5000/upload",
+        "/api/upload",
         formData,
         { headers }
       );
       const resumeText = uploadRes.data.text;
 
       const tailorRes = await axios.post(
-        "http://localhost:5000/tailor",
+        "/api/tailor",
         { resumeText, jobDescription },
         { headers }
       );

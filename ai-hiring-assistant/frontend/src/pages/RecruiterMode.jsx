@@ -44,7 +44,7 @@ export default function RecruiterMode() {
         formData.append("resumes", file);
       });
 
-      const uploadRes = await axios.post("http://localhost:5000/bulk-upload", formData, {
+      const uploadRes = await axios.post("/api/bulk-upload", formData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data" 
@@ -55,7 +55,7 @@ export default function RecruiterMode() {
       setProgress(40);
 
       // 2. Batch Analyze
-      const analyzeRes = await axios.post("http://localhost:5000/bulk-analyze", {
+      const analyzeRes = await axios.post("/api/bulk-analyze", {
         resumes,
         jobDescription
       }, {

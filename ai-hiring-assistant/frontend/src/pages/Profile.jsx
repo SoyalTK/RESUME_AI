@@ -25,7 +25,7 @@ export default function Profile() {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/auth/me", {
+      const res = await axios.get("/api/auth/me", {
         headers: { Authorization: `Bearer ${token}` }
       });
       const userData = res.data.user;
@@ -48,7 +48,7 @@ export default function Profile() {
     setSaving(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.put("http://localhost:5000/auth/profile", formData, {
+      await axios.put("/api/auth/profile", formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       await fetchProfile();
@@ -70,7 +70,7 @@ export default function Profile() {
     setUploading(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/auth/profile-image", uploadData, {
+      await axios.post("/api/auth/profile-image", uploadData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
@@ -100,7 +100,7 @@ export default function Profile() {
   const offset = circumference - (completionScore / 100) * circumference;
 
   const getAvatar = () => {
-    if (user?.profile_image) return `http://localhost:5000${user.profile_image}`;
+    if (user?.profile_image) return user.profile_image.startsWith('http') ? user.profile_image : `/api${user.profile_image}`;
     return "https://api.dicebear.com/7.x/initials/svg?seed=" + (user?.name || "User") + "&backgroundColor=8b5cf6";
   };
 

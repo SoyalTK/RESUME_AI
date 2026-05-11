@@ -12,8 +12,8 @@ export default function Home() {
       try {
         const token = localStorage.getItem("token");
         const [userRes, historyRes] = await Promise.all([
-          axios.get("http://localhost:5000/auth/me", { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get("http://localhost:5000/history", { headers: { Authorization: `Bearer ${token}` } })
+          axios.get("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get("/api/history", { headers: { Authorization: `Bearer ${token}` } })
         ]);
         
         setUser(userRes.data.user);
@@ -43,7 +43,7 @@ export default function Home() {
   };
 
   const getAvatar = () => {
-    if (user?.profile_image) return `http://localhost:5000${user.profile_image}`;
+    if (user?.profile_image) return user.profile_image.startsWith('http') ? user.profile_image : `/api${user.profile_image}`;
     return "https://api.dicebear.com/7.x/initials/svg?seed=" + (user?.name || "User") + "&backgroundColor=8b5cf6";
   };
 
